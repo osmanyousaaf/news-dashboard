@@ -313,6 +313,16 @@ h1, h2, h3, h4, h5, h6 { color: var(--text-primary); }
   background: var(--bg-hover);
 }
 
+.summary-headline-link {
+  transition: color var(--t-fast);
+  text-decoration: none;
+}
+
+.summary-headline-link:hover {
+  color: var(--headline-accent, var(--accent-cyan)) !important;
+  text-decoration: underline;
+}
+
 @media (min-width: 640px) {
   .summary-card:nth-child(odd) {
     border-right: 1px solid var(--border-subtle);

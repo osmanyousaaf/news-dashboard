@@ -68,6 +68,10 @@ const SOURCE_AUTHORITY: Record<string, number> = {
   'MIT Tech Review AI': 9, 'VentureBeat AI': 7,
   'BBC Technology': 8, 'MarketWatch': 8,
   'arXiv AI': 9, 'arXiv ML': 9,
+  'Reddit r/artificial': 5, 'Reddit r/MachineLearning': 5, 'Reddit r/LocalLLaMA': 5,
+  'Reddit r/CryptoCurrency': 5, 'Reddit r/Bitcoin': 5, 'Reddit r/ethereum': 5,
+  'Reddit r/stocks': 5, 'Reddit r/investing': 5, 'Reddit r/technology': 5,
+  'Reddit r/startups': 5, 'Reddit r/worldnews': 5,
 };
 
 export function scoreRelevance(title: string, description: string, category: Category): number {

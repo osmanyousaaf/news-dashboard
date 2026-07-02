@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(parseInt(searchParams.get('limit') || '30'), 100);
   const offset = parseInt(searchParams.get('offset') || '0');
 
-  const cacheKey = `feeds_v3:${category || 'all'}`;
+  const cacheKey = `feeds_v5:${category || 'all'}`;
   const cached = getCached<NewsItem[]>(cacheKey);
 
   if (cached) {
@@ -118,10 +118,10 @@ export async function GET(request: NextRequest) {
   let processed = deduplicateByUrl(allItems);
   processed = deduplicateByTitle(processed);
   processed.sort((a, b) => {
-    // Primary: significance score desc, Secondary: date desc
-    const sigDiff = b.significance - a.significance;
-    if (sigDiff !== 0) return sigDiff;
-    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+    // Primary: latest first, Secondary: significance for same publish time
+    const dateDiff = new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+    if (dateDiff !== 0) return dateDiff;
+    return b.significance - a.significance;
   });
 
   setCache(cacheKey, processed, CACHE_TTL);

@@ -18,13 +18,18 @@ const parser = new Parser({
   },
 });
 
+export interface SummaryHeadline {
+  title: string;
+  url: string;
+}
+
 export interface CategorySummary {
   category: string;
   categoryId: string;
   icon: string;
   gradient: string;
   summary: string;
-  headlines: string[];
+  headlines: SummaryHeadline[];
   generatedAt: string;
 }
 
@@ -34,23 +39,32 @@ export interface SummaryResponse {
 }
 
 // Fetch top headlines for a category from RSS
-async function fetchHeadlines(categoryId: string): Promise<string[]> {
-  const sources = FEED_SOURCES.filter(s => s.category === categoryId); // ALL sources, not just 3
-  const titles: string[] = [];
+async function fetchHeadlines(categoryId: string): Promise<SummaryHeadline[]> {
+  const sources = FEED_SOURCES.filter(s => s.category === categoryId);
+  const headlines: (SummaryHeadline & { publishedAt: string })[] = [];
 
   const allFetches = sources.map(async (source) => {
     try {
       const feed = await parser.parseURL(source.url);
       return (feed.items || [])
         .slice(0, MAX_ITEMS_PER_FEED)
-        .map(item => item.title?.trim())
-        .filter(Boolean) as string[];
+        .map(item => {
+          const title = item.title?.trim();
+          const url = item.link?.trim() || '';
+          if (!title || !url) return null;
+          return {
+            title,
+            url,
+            publishedAt: item.isoDate || item.pubDate || new Date(0).toISOString(),
+          };
+        })
+        .filter((item): item is SummaryHeadline & { publishedAt: string } => item !== null);
     } catch {
       return [];
     }
   });
 
-  const batches: string[][] = [];
+  const batches: (SummaryHeadline & { publishedAt: string })[][] = [];
   for (let i = 0; i < allFetches.length; i += BATCH_SIZE) {
     const results = await Promise.allSettled(allFetches.slice(i, i + BATCH_SIZE));
     for (const r of results) {
@@ -58,13 +72,25 @@ async function fetchHeadlines(categoryId: string): Promise<string[]> {
     }
   }
 
-  for (const batch of batches) titles.push(...batch);
-  return titles.slice(0, 20); // max 20 headlines per category for comprehensive coverage
+  for (const batch of batches) headlines.push(...batch);
+
+  const seen = new Set<string>();
+  const unique = headlines.filter(item => {
+    if (seen.has(item.url)) return false;
+    seen.add(item.url);
+    return true;
+  });
+
+  unique.sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+
+  return unique.slice(0, 20).map(({ title, url }) => ({ title, url }));
 }
 
 export async function GET(request: NextRequest) {
   const force = request.nextUrl.searchParams.get('force') === '1';
-  const cacheKey = 'ai-summary:overview:v1';
+  const cacheKey = 'ai-summary:overview:v3';
 
   if (!force) {
     const cached = getCached<SummaryResponse>(cacheKey);
@@ -73,7 +99,7 @@ export async function GET(request: NextRequest) {
 
   // Gather headlines for each category in parallel (with concurrency)
   const categoryIds = CATEGORIES.map(c => c.id);
-  const headlineMap: Record<string, string[]> = {};
+  const headlineMap: Record<string, SummaryHeadline[]> = {};
 
   await Promise.allSettled(
     categoryIds.map(async (id) => {
@@ -87,7 +113,7 @@ export async function GET(request: NextRequest) {
     if (headlines.length === 0) {
       return `ID: "${cat.id}"\nCategory: ${cat.name}\n(No headlines fetched — provide a general summary based on your knowledge of current trends in this domain.)`;
     }
-    return `ID: "${cat.id}"\nCategory: ${cat.name}\n${headlines.map((h, i) => `${i + 1}. ${h}`).join('\n')}`;
+    return `ID: "${cat.id}"\nCategory: ${cat.name}\n${headlines.map((h, i) => `${i + 1}. ${h.title}`).join('\n')}`;
   }).join('\n\n');
 
   const prompt = `You are an expert intelligence analyst. Below are the latest headlines from each category in a real-time news dashboard.
@@ -139,7 +165,7 @@ Return ONLY valid JSON. No markdown fences or explanations.`;
           categoryId: cat.id,
           icon: cat.icon,
           gradient: cat.gradient,
-          summary: found?.summary ?? `Latest in ${cat.name}: ${headlines.slice(0, 2).join(' | ') || 'No updates available.'}`,
+          summary: found?.summary ?? `Latest in ${cat.name}: ${headlines.slice(0, 2).map(h => h.title).join(' | ') || 'No updates available.'}`,
           headlines: headlines.slice(0, 8),
           generatedAt: new Date().toISOString(),
         };
@@ -160,7 +186,7 @@ Return ONLY valid JSON. No markdown fences or explanations.`;
         icon: cat.icon,
         gradient: cat.gradient,
         summary: headlines.length > 0
-          ? `Top stories: ${headlines.slice(0, 3).join(' | ')}`
+          ? `Top stories: ${headlines.slice(0, 3).map(h => h.title).join(' | ')}`
           : 'No headlines available for this category.',
         headlines: headlines.slice(0, 8),
         generatedAt: new Date().toISOString(),

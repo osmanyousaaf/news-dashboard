@@ -2,13 +2,18 @@
 
 import { useQuery } from '@tanstack/react-query';
 
+export interface SummaryHeadline {
+  title: string;
+  url: string;
+}
+
 export interface CategorySummary {
   category: string;
   categoryId: string;
   icon: string;
   gradient: string;
   summary: string;
-  headlines: string[];
+  headlines: SummaryHeadline[];
   generatedAt: string;
 }
 

@@ -51,16 +51,22 @@ function CategoryCard({ item }: { item: CategorySummary }) {
       {item.headlines.length > 0 && (
         <div className="space-y-1.5 pt-2.5 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
           {item.headlines.map((headline, i) => (
-            <div key={i} className="flex items-start gap-2">
+            <div key={`${headline.url}-${i}`} className="flex items-start gap-2">
               <span
                 className="text-[9px] font-mono font-bold mt-[3px] flex-shrink-0 w-3.5 text-right"
                 style={{ color: accent }}
               >
                 {i + 1}
               </span>
-              <p className="text-[11.5px] leading-snug line-clamp-2" style={{ color: 'var(--text-muted)' }}>
-                {headline}
-              </p>
+              <a
+                href={headline.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="summary-headline-link text-[11.5px] leading-snug line-clamp-2"
+                style={{ color: 'var(--text-muted)', ['--headline-accent' as string]: accent }}
+              >
+                {headline.title}
+              </a>
             </div>
           ))}
         </div>

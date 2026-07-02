@@ -181,6 +181,42 @@ export const FEED_SOURCES: FeedSource[] = [
   { id: 'scmp-tech', name: 'South China Morning Post Tech', url: 'https://www.scmp.com/rss/91/feed', category: 'global', subcategories: ['china', 'technology'], priority: 4 },
   { id: 'nikkei-asia', name: 'Nikkei Asia', url: 'https://asia.nikkei.com/.rss/feed', category: 'global', subcategories: ['asia', 'business'], priority: 4 },
   { id: 'politico', name: 'Politico', url: 'https://rss.politico.com/politics-news.xml', category: 'global', subcategories: ['politics', 'policy'], priority: 4 },
+
+  // ─── Reddit (community sources by category) ───
+  { id: 'reddit-artificial', name: 'Reddit r/artificial', url: 'https://www.reddit.com/r/artificial/.rss', category: 'ai', subcategories: ['news', 'discussion'], priority: 3 },
+  { id: 'reddit-machinelearning', name: 'Reddit r/MachineLearning', url: 'https://www.reddit.com/r/MachineLearning/.rss', category: 'ai', subcategories: ['research', 'models'], priority: 3 },
+  { id: 'reddit-localllama', name: 'Reddit r/LocalLLaMA', url: 'https://www.reddit.com/r/LocalLLaMA/.rss', category: 'ai', subcategories: ['models', 'tools'], priority: 3 },
+  { id: 'reddit-openai', name: 'Reddit r/OpenAI', url: 'https://www.reddit.com/r/OpenAI/.rss', category: 'ai', subcategories: ['models', 'news'], priority: 3 },
+
+  { id: 'reddit-cryptocurrency', name: 'Reddit r/CryptoCurrency', url: 'https://www.reddit.com/r/CryptoCurrency/.rss', category: 'crypto', subcategories: ['market', 'news'], priority: 3 },
+  { id: 'reddit-bitcoin', name: 'Reddit r/Bitcoin', url: 'https://www.reddit.com/r/Bitcoin/.rss', category: 'crypto', subcategories: ['bitcoin', 'market'], priority: 3 },
+  { id: 'reddit-ethereum', name: 'Reddit r/ethereum', url: 'https://www.reddit.com/r/ethereum/.rss', category: 'crypto', subcategories: ['ethereum', 'defi'], priority: 3 },
+  { id: 'reddit-defi', name: 'Reddit r/defi', url: 'https://www.reddit.com/r/defi/.rss', category: 'crypto', subcategories: ['defi', 'analysis'], priority: 3 },
+
+  { id: 'reddit-stocks', name: 'Reddit r/stocks', url: 'https://www.reddit.com/r/stocks/.rss', category: 'trading', subcategories: ['stocks', 'analysis'], priority: 3 },
+  { id: 'reddit-investing', name: 'Reddit r/investing', url: 'https://www.reddit.com/r/investing/.rss', category: 'trading', subcategories: ['stocks', 'markets'], priority: 3 },
+  { id: 'reddit-stockmarket', name: 'Reddit r/StockMarket', url: 'https://www.reddit.com/r/StockMarket/.rss', category: 'trading', subcategories: ['markets', 'news'], priority: 3 },
+  { id: 'reddit-forex', name: 'Reddit r/Forex', url: 'https://www.reddit.com/r/Forex/.rss', category: 'trading', subcategories: ['forex', 'signals'], priority: 3 },
+
+  { id: 'reddit-programming', name: 'Reddit r/programming', url: 'https://www.reddit.com/r/programming/.rss', category: 'github', subcategories: ['community', 'news'], priority: 3 },
+  { id: 'reddit-opensource', name: 'Reddit r/opensource', url: 'https://www.reddit.com/r/opensource/.rss', category: 'github', subcategories: ['opensource', 'tools'], priority: 3 },
+  { id: 'reddit-devops', name: 'Reddit r/devops', url: 'https://www.reddit.com/r/devops/.rss', category: 'github', subcategories: ['devops', 'cloud'], priority: 3 },
+  { id: 'reddit-selfhosted', name: 'Reddit r/selfhosted', url: 'https://www.reddit.com/r/selfhosted/.rss', category: 'github', subcategories: ['tools', 'community'], priority: 3 },
+
+  { id: 'reddit-technology', name: 'Reddit r/technology', url: 'https://www.reddit.com/r/technology/.rss', category: 'tech', subcategories: ['news', 'products'], priority: 3 },
+  { id: 'reddit-gadgets', name: 'Reddit r/gadgets', url: 'https://www.reddit.com/r/gadgets/.rss', category: 'tech', subcategories: ['hardware', 'products'], priority: 3 },
+  { id: 'reddit-futurology', name: 'Reddit r/Futurology', url: 'https://www.reddit.com/r/Futurology/.rss', category: 'tech', subcategories: ['innovation', 'science'], priority: 3 },
+
+  { id: 'reddit-compsci', name: 'Reddit r/compsci', url: 'https://www.reddit.com/r/compsci/.rss', category: 'research', subcategories: ['papers', 'academia'], priority: 3 },
+  { id: 'reddit-science', name: 'Reddit r/science', url: 'https://www.reddit.com/r/science/.rss', category: 'research', subcategories: ['research', 'papers'], priority: 3 },
+
+  { id: 'reddit-startups', name: 'Reddit r/startups', url: 'https://www.reddit.com/r/startups/.rss', category: 'startups', subcategories: ['funding', 'launches'], priority: 3 },
+  { id: 'reddit-entrepreneur', name: 'Reddit r/Entrepreneur', url: 'https://www.reddit.com/r/Entrepreneur/.rss', category: 'startups', subcategories: ['founders', 'growth'], priority: 3 },
+  { id: 'reddit-saas', name: 'Reddit r/SaaS', url: 'https://www.reddit.com/r/SaaS/.rss', category: 'startups', subcategories: ['saas', 'products'], priority: 3 },
+
+  { id: 'reddit-worldnews', name: 'Reddit r/worldnews', url: 'https://www.reddit.com/r/worldnews/.rss', category: 'global', subcategories: ['world', 'geopolitics'], priority: 3 },
+  { id: 'reddit-geopolitics', name: 'Reddit r/geopolitics', url: 'https://www.reddit.com/r/geopolitics/.rss', category: 'global', subcategories: ['geopolitics', 'policy'], priority: 3 },
+  { id: 'reddit-news', name: 'Reddit r/news', url: 'https://www.reddit.com/r/news/.rss', category: 'global', subcategories: ['world', 'news'], priority: 3 },
 ];
 
 export function getFeedsByCategory(category: Category): FeedSource[] {
