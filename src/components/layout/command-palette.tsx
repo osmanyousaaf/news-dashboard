@@ -73,7 +73,17 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       label: 'Refresh all feeds',
       icon: '🔄',
       category: 'Actions',
-      action: () => { window.location.reload(); onClose(); },
+      action: async () => {
+        try {
+          // Force server-side refresh (bypass cache), then reload UI.
+          await fetch('/api/feeds?force=1&limit=1');
+        } catch {
+          // ignore
+        } finally {
+          window.location.reload();
+          onClose();
+        }
+      },
     },
   ];
 

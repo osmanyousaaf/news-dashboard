@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 export const dynamic = 'force-dynamic';
-import { getCached, setCache } from '@/lib/feeds/cache';
+import { getCached, invalidateCache, setCache } from '@/lib/feeds/cache';
 import { FEED_SOURCES } from '@/lib/feeds/registry';
 import { getAllFeedItems } from '@/lib/feeds/fetch-all-feeds';
 import { getFeedsForModule, isIntelligenceModule } from '@/lib/feeds/module-feeds';
@@ -127,11 +127,12 @@ export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const category = searchParams.get('category') as Category | null;
   const moduleId = searchParams.get('module');
+  const force = searchParams.get('force') === '1';
   const limit = Math.min(parseInt(searchParams.get('limit') || '30'), 100);
   const offset = parseInt(searchParams.get('offset') || '0');
 
   const cacheKey = `feeds_v5:${moduleId || category || 'all'}`;
-  const cached = getCached<NewsItem[]>(cacheKey);
+  const cached = force ? null : getCached<NewsItem[]>(cacheKey);
 
   if (cached) {
     const paginated = cached.slice(offset, offset + limit);
@@ -141,6 +142,12 @@ export async function GET(request: NextRequest) {
       lastUpdated: new Date().toISOString(),
       category,
     });
+  }
+
+  if (force) {
+    // Clear cached feeds so the next requests also reflect fresh data.
+    // (We still keep the response fast via time-bounded RSS fetches.)
+    invalidateCache('feeds_v5:');
   }
 
   // Warm full cache in the background so future loads are fast.
