@@ -56,14 +56,14 @@ Internship collaboration project.
 
 | Name | Role / Affiliation |
 |------|--------------------|
-| [Usman Yousaf](https://github.com/usmanyousaaf) (`usmanyousaaf`) | Publisher & Lead |
+| [Usman Yousaf](https://github.com/usmanyousaaf) | Publisher & Lead |
 | Sameer Qureshi | Contributor |
 | Faiza BB | Contributor |
 
 ### Organizations
 
 - [byteboom.ai](https://byteboom.ai)
-- [Croven AI](https://crovenai.com)
+- [Croven AI](http://crovenai.com/)
 
 ## Repository
 
