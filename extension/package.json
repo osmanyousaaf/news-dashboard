@@ -1,8 +1,8 @@
 {
   "name": "newsdash",
   "displayName": "NewsDash",
-  "description": "Real-time AI News Intelligence — sector-filtered headlines inside VS Code.",
-  "version": "1.1.0",
+  "description": "Technology Control Center for VS Code — live news, markets, critical alerts, AI chat, and daily summaries.",
+  "version": "1.1.1",
   "publisher": "usmanyousaaf",
   "engines": {
     "vscode": "^1.85.0"
