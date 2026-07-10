@@ -1,38 +1,97 @@
-# News Dashboard (NewsDash)
+# NewsDash
 
-This is a [Next.js](https://nextjs.org) app that aggregates headlines from many RSS feeds and shows them in a dashboard.
+**Real-Time AI News Intelligence & Decision Dashboard**
 
-## Getting Started
+<p align="center">
+  <img src="public/logo.png" alt="NewsDash — LIVE NEWS 24/7" width="180" />
+</p>
 
-First, run the development server:
+NewsDash aggregates live headlines across technology and markets into a Control Center dashboard — plus a [Visual Studio Code extension](./extension) so the same intelligence stays inside your editor.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Live app:** [https://news-dashboard-e69n.vercel.app](https://news-dashboard-e69n.vercel.app/)
+
+---
+
+## Features
+
+| Area | What it does |
+|------|----------------|
+| **Control Center** | Top technology news, global hot trends, operations timeline, framework & research radar |
+| **Critical Breaking Alert** | High-significance stories surfaced immediately |
+| **Live ticker** | London weather and major crypto prices with up/down movement |
+| **Sectors** | Technology, AI, Cybersecurity, Cloud & DevOps, GitHub, Research, Startups, Crypto, Forex, Gold, Trading, Geopolitics |
+| **AI Chat & Quick Summary** | Conversational briefing and daily category summaries |
+| **VS Code extension** | Full dashboard experience inside VS Code (Activity Bar + webview) |
+
+---
+
+## Repository layout
+
+```
+├── src/           # Next.js web dashboard + API routes
+├── public/        # Static assets (logo, icons)
+└── extension/     # VS Code extension (NewsDash)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Web app
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Production is deployed on Vercel. Local development:
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Optional environment variable for AI features:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+GROQ_API_KEY=your_key
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## VS Code extension
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [extension/README.md](./extension/README.md) for install, usage, and Marketplace details.
+
+Package locally:
+
+```bash
+cd extension
+npm install
+cd webview-ui && npm install && cd ..
+npm run package
+```
+
+---
+
+## Contributors
+
+Internship collaboration project.
+
+| Name | Role |
+|------|------|
+| [Usman Yousaf](https://github.com/usmanyousaaf) | Publisher & Lead |
+| Sameer Qureshi | Contributor |
+| Faiza BB | Contributor |
+
+### Organizations
+
+- [byteboom.ai](https://byteboom.ai)
+- [Croven AI](http://crovenai.com/)
+
+---
+
+## Links
+
+- Web: [news-dashboard-e69n.vercel.app](https://news-dashboard-e69n.vercel.app/)
+- Marketplace: [NewsDash](https://marketplace.visualstudio.com/items?itemName=usmanyousaaf.newsdash)
+- Source: [github.com/osmanyousaaf/news-dashboard](https://github.com/osmanyousaaf/news-dashboard)
+
+## License
+
+MIT © NewsDash contributors
