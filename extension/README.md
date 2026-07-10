@@ -72,13 +72,13 @@ Marketplace: [NewsDash](https://marketplace.visualstudio.com/items?itemName=usma
 
 ## Contributors
 
-Internship collaboration project.
+Internship collaboration project. All three are developers on NewsDash.
 
-| Name | Role |
-|------|------|
-| [Usman Yousaf](https://github.com/usmanyousaaf) | Publisher & Lead |
-| Sameer Qureshi | Contributor |
-| Faiza BB | Contributor |
+| Name | Role | GitHub |
+|------|------|--------|
+| [Usman Yousaf](https://github.com/usmanyousaaf) | Developer | [usmanyousaaf](https://github.com/usmanyousaaf) |
+| [Sameer Qureshi](https://github.com/21Sameer) | Developer | [21Sameer](https://github.com/21Sameer) |
+| [Faiza BB](https://github.com/Faiza2k) | Developer | [Faiza2k](https://github.com/Faiza2k) |
 
 ### Organizations
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+- Contributors listed as Developers with GitHub profiles
+
 ## 1.2.2
 
 - Updated NewsDash branding with the official LIVE NEWS 24/7 logo
