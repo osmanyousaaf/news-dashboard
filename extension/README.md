@@ -52,11 +52,18 @@ Marketplace: [NewsDash](https://marketplace.visualstudio.com/items?itemName=usma
 
 ## Team
 
-| Role | Name |
-|------|------|
-| Publisher & Lead | Usman Yousaf (`usmanyousaaf`) |
+Internship collaboration project.
 
-*Additional collaborators — reply with names and profiles to be listed here in the next release.*
+| Name | Role / Affiliation |
+|------|--------------------|
+| [Usman Yousaf](https://github.com/usmanyousaaf) (`usmanyousaaf`) | Publisher & Lead |
+| Sameer Qureshi | Contributor |
+| Faiza BB | Contributor |
+
+### Organizations
+
+- [byteboom.ai](https://byteboom.ai)
+- [Croven AI](https://crovenai.com)
 
 ## Repository
 
