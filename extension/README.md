@@ -1,78 +1,67 @@
-# NewsDash for VS Code
+# NewsDash for Visual Studio Code
 
-Real-time AI News Intelligence inside VS Code. Browse sector-filtered headlines, save articles, and open full stories without leaving the editor.
+**Real-time AI News Intelligence inside your editor.**
 
-## Features
+NewsDash brings a Technology Control Center into VS Code: live sector headlines, market telemetry, critical alerts, AI chat, and daily summaries — without leaving your workspace.
 
-- **All News / By Sector** — Technology, Cybersecurity, Cloud & DevOps, Finance, Crypto, Markets, Research, Global
-- **Search** — filter loaded headlines by title, description, source
-- **Saved News & Watchlist** — stored locally in VS Code (`globalState`)
-- **Open Full Article** — opens the source URL in your browser
-- **Settings** — API base URL and auto-refresh interval
+![NewsDash](https://raw.githubusercontent.com/osmanyousaaf/news-dashboard/main/extension/media/logo.png)
 
-## Requirements
+## Highlights
 
-- VS Code 1.85+
-- Network access to the NewsDash API (default: production Vercel deployment)
+- **Control Center** — Top technology news, global hot trends, operations timeline, and framework & research radar
+- **Critical Breaking Alert** — High-significance stories surface immediately when detected
+- **Live market ticker** — London weather plus major crypto prices with clear up/down movement
+- **Sector intelligence** — Technology, AI, Cybersecurity, Cloud & DevOps, GitHub, Research, Startups, Crypto, Forex, Gold, Trading, Geopolitics
+- **AI Chat & Quick Summary** — Conversational briefing and distilled daily intelligence
+- **Saved & Watchlist** — Keep important stories locally in VS Code
+- **Light / Dark theme** — Clean, readable interface for long reading sessions
 
-## Getting started
+## Install
 
-1. Install the extension (Marketplace or `.vsix`)
-2. Click the **NewsDash** icon in the Activity Bar, or run **NewsDash: Open Dashboard** from the Command Palette
-3. Browse sectors and open articles
+1. Open VS Code
+2. Go to **Extensions**
+3. Search for **NewsDash** by `usmanyousaaf`
+4. Click **Install**
+5. Run **NewsDash: Open Dashboard** from the Command Palette, or use the Activity Bar icon
 
-### Local API (optional)
+Marketplace: [NewsDash](https://marketplace.visualstudio.com/items?itemName=usmanyousaaf.newsdash)
 
-While developing the Next.js backend:
+## Usage
 
-1. Run `npm run dev` in the repo root
-2. In VS Code settings, set `newsdash.apiBaseUrl` to `http://localhost:3000`
+| Action | How |
+|--------|-----|
+| Open dashboard | Command Palette → `NewsDash: Open Dashboard` |
+| Switch sectors | Left navigation (Technology / Markets & Global) |
+| Save an article | Bookmark icon on a card or **Save** in the detail panel |
+| Open source article | **Open Full Article** |
+| Theme | Moon icon in the top bar |
+| AI Chat / Summary | Robot and briefing icons in the top bar |
 
-## Extension settings
+## Configuration
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `newsdash.apiBaseUrl` | `https://news-dashboard-six-indol.vercel.app` | API host (no trailing slash) |
-| `newsdash.refreshInterval` | `60` | Auto-refresh seconds (`0` = off) |
+| `newsdash.apiBaseUrl` | Production NewsDash API | Base URL for live intelligence endpoints |
+| `newsdash.refreshInterval` | `60` | Auto-refresh interval in seconds (`0` disables) |
 
-## Develop this extension
+## Privacy
 
-```bash
-cd extension
-npm install
-cd webview-ui && npm install && cd ..
-npm run compile
-```
+- Saved articles and watchlist items are stored locally in VS Code (`globalState`)
+- API keys for AI features remain on the server; they are never bundled in the extension
+- The extension requests only the news, market, weather, briefing, and chat endpoints required for the dashboard
 
-Then press **F5** in this workspace (launch config: **Run NewsDash Extension**).
+## Team
 
-### Package
+| Role | Name |
+|------|------|
+| Publisher & Lead | Usman Yousaf (`usmanyousaaf`) |
 
-```bash
-cd extension
-npm run package
-```
+*Additional collaborators — reply with names and profiles to be listed here in the next release.*
 
-Produces `newsdash-1.0.0.vsix`. Install via **Extensions: Install from VSIX…**.
+## Repository
 
-## Publish checklist (Microsoft Marketplace)
-
-1. Create a [publisher](https://marketplace.visualstudio.com/manage) with your Microsoft account
-2. Update `"publisher"` in `extension/package.json` to your publisher id
-3. Create an Azure DevOps PAT with **Marketplace (Manage)** scope
-4. Run:
-   ```bash
-   npx vsce login <your-publisher-id>
-   npx vsce publish
-   ```
-5. Confirm the listing on [marketplace.visualstudio.com](https://marketplace.visualstudio.com)
-
-**Do not** put `GROQ_API_KEY` or other secrets in the extension — they stay on the Vercel API only.
-
-## Architecture
-
-The extension host fetches `/api/feeds` from your configured API base URL and posts results into a React webview. Saved/Watchlist never leave the local VS Code machine.
+Source: [github.com/osmanyousaaf/news-dashboard](https://github.com/osmanyousaaf/news-dashboard)
 
 ## License
 
-MIT
+MIT © NewsDash contributors

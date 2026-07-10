@@ -9,7 +9,7 @@ interface Props {
 export function SettingsPanel({ settings }: Props) {
   const [apiBaseUrl, setApiBaseUrl] = useState('');
   const [refreshInterval, setRefreshInterval] = useState('60');
-  const [savedMsg, setSavedMsg] = useState('');
+  const [msg, setMsg] = useState('');
 
   useEffect(() => {
     if (!settings) return;
@@ -18,50 +18,44 @@ export function SettingsPanel({ settings }: Props) {
   }, [settings]);
 
   const onSave = () => {
-    const interval = Math.max(0, Number.parseInt(refreshInterval, 10) || 0);
     postToHost({
       type: 'updateSettings',
       settings: {
         apiBaseUrl: apiBaseUrl.replace(/\/$/, ''),
-        refreshInterval: interval,
+        refreshInterval: Math.max(0, Number.parseInt(refreshInterval, 10) || 0),
       },
     });
-    setSavedMsg('Settings saved.');
-    window.setTimeout(() => setSavedMsg(''), 2000);
+    setMsg('Settings saved.');
+    window.setTimeout(() => setMsg(''), 2000);
   };
 
   return (
-    <section className="center">
-      <div className="settings-panel">
-        <h2>Settings</h2>
-        <div className="field">
-          <label htmlFor="apiBaseUrl">API Base URL</label>
-          <input
-            id="apiBaseUrl"
-            value={apiBaseUrl}
-            onChange={(e) => setApiBaseUrl(e.target.value)}
-            placeholder="https://news-dashboard-six-indol.vercel.app"
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="refreshInterval">Refresh interval (seconds, 0 = off)</label>
-          <input
-            id="refreshInterval"
-            type="number"
-            min={0}
-            value={refreshInterval}
-            onChange={(e) => setRefreshInterval(e.target.value)}
-          />
-        </div>
-        <button type="button" className="btn primary" onClick={onSave}>
-          Save Settings
-        </button>
-        {savedMsg && <p className="status-bar">{savedMsg}</p>}
-        <p className="status-bar" style={{ marginTop: 16 }}>
-          Tip: point API Base URL at <code>http://localhost:3000</code> while running the Next.js
-          app locally.
-        </p>
+    <div>
+      <h2 className="page-title">Settings</h2>
+      <p className="page-sub">Configure the NewsDash intelligence endpoint and refresh cadence.</p>
+      <div className="field">
+        <label htmlFor="apiBaseUrl">API Base URL</label>
+        <input
+          id="apiBaseUrl"
+          value={apiBaseUrl}
+          onChange={(e) => setApiBaseUrl(e.target.value)}
+          placeholder="https://your-deployment.vercel.app"
+        />
       </div>
-    </section>
+      <div className="field">
+        <label htmlFor="refreshInterval">Auto-refresh (seconds, 0 = off)</label>
+        <input
+          id="refreshInterval"
+          type="number"
+          min={0}
+          value={refreshInterval}
+          onChange={(e) => setRefreshInterval(e.target.value)}
+        />
+      </div>
+      <button type="button" className="btn primary" onClick={onSave}>
+        Save Settings
+      </button>
+      {msg && <p className="page-sub" style={{ marginTop: 12 }}>{msg}</p>}
+    </div>
   );
 }

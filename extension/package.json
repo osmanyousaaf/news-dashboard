@@ -2,13 +2,22 @@
   "name": "newsdash",
   "displayName": "NewsDash",
   "description": "Real-time AI News Intelligence — sector-filtered headlines inside VS Code.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "usmanyousaaf",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "news",
+    "rss",
+    "ai",
+    "crypto",
+    "markets",
+    "dashboard",
+    "intelligence"
   ],
   "repository": {
     "type": "git",
@@ -61,7 +70,7 @@
         "newsdash.apiBaseUrl": {
           "type": "string",
           "default": "https://news-dashboard-six-indol.vercel.app",
-          "description": "Base URL for the NewsDash API (no trailing slash). Use http://localhost:3000 for local Next.js."
+          "description": "Base URL for the NewsDash intelligence API (no trailing slash)."
         },
         "newsdash.refreshInterval": {
           "type": "number",

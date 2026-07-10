@@ -1,6 +1,5 @@
-import { IconBookmark, IconExternal, IconShare } from '../icons';
 import { CATEGORY_LABELS, NewsItem } from '../types';
-import { extractHighlights, formatRelativeTime, postToHost, stripHtml } from '../vscode';
+import { formatRelativeTime, postToHost, stripHtml } from '../vscode';
 
 interface Props {
   item: NewsItem | null;
@@ -14,44 +13,33 @@ export function DetailPanel({ item, saved, watched, onToggleSave, onToggleWatch 
   if (!item) {
     return (
       <aside className="detail">
-        <div className="detail-empty">
-          <h2>Select an article</h2>
-          <p>Pick a headline from the feed to see summary, highlights, and source.</p>
+        <div className="empty">
+          <h2 style={{ color: 'var(--text)', fontSize: 15, marginBottom: 8 }}>Select an article</h2>
+          <p>Choose a headline to review summary, source, and actions.</p>
         </div>
       </aside>
     );
   }
 
-  const label =
-    CATEGORY_LABELS[item.subcategory ?? ''] ||
-    CATEGORY_LABELS[item.category] ||
-    item.category;
   const summary = stripHtml(item.description);
-  const highlights = extractHighlights(item.description);
 
   return (
     <aside className="detail">
       <h2>{item.title}</h2>
-      <div className="detail-meta">
-        <span className="tag">{label}</span>
+      <div className="meta-line">
+        <span className="tag">{CATEGORY_LABELS[item.category] ?? item.category}</span>
         <span>{formatRelativeTime(item.publishedAt)}</span>
         <span>{item.source}</span>
       </div>
 
       <div className="detail-actions">
         <button type="button" className="btn" onClick={onToggleSave}>
-          <IconBookmark filled={saved} />
           {saved ? 'Saved' : 'Save'}
         </button>
         <button type="button" className="btn" onClick={onToggleWatch}>
           {watched ? 'Watching' : 'Watch'}
         </button>
-        <button
-          type="button"
-          className="btn"
-          onClick={() => postToHost({ type: 'copyUrl', url: item.url })}
-        >
-          <IconShare />
+        <button type="button" className="btn" onClick={() => postToHost({ type: 'copyUrl', url: item.url })}>
           Share
         </button>
       </div>
@@ -60,17 +48,6 @@ export function DetailPanel({ item, saved, watched, onToggleSave, onToggleWatch 
         <div className="section">
           <h3>Summary</h3>
           <p>{summary}</p>
-        </div>
-      )}
-
-      {highlights.length > 0 && (
-        <div className="section">
-          <h3>Key Highlights</h3>
-          <ul>
-            {highlights.map((h) => (
-              <li key={h}>{h}</li>
-            ))}
-          </ul>
         </div>
       )}
 
@@ -93,7 +70,6 @@ export function DetailPanel({ item, saved, watched, onToggleSave, onToggleWatch 
         onClick={() => postToHost({ type: 'openExternal', url: item.url })}
       >
         Open Full Article
-        <IconExternal />
       </button>
     </aside>
   );

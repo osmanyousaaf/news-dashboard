@@ -1,5 +1,14 @@
 import * as vscode from 'vscode';
-import { fetchFeeds } from './api-client';
+import {
+  fetchBriefing,
+  fetchCryptoMarket,
+  fetchDashboardFeeds,
+  fetchFeeds,
+  fetchSummary,
+  fetchWeather,
+  getSectorQuery,
+  postChat,
+} from './api-client';
 import {
   ExtensionSettings,
   HostToWebview,
@@ -13,7 +22,7 @@ const WATCHLIST_KEY = 'newsdash.watchlist';
 
 let dashboardPanel: vscode.WebviewPanel | undefined;
 let refreshTimer: ReturnType<typeof setInterval> | undefined;
-let currentSector: SectorId = 'all';
+let currentSector: SectorId = 'control';
 
 export function activate(context: vscode.ExtensionContext) {
   const openCmd = vscode.commands.registerCommand('newsdash.openDashboard', () => {
@@ -22,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   const refreshCmd = vscode.commands.registerCommand('newsdash.refresh', () => {
     if (dashboardPanel) {
-      void loadFeeds(context, dashboardPanel.webview, currentSector);
+      void refreshAll(context, dashboardPanel.webview);
     } else {
       openDashboard(context);
     }
@@ -34,8 +43,6 @@ export function activate(context: vscode.ExtensionContext) {
     refreshCmd,
     vscode.window.registerWebviewViewProvider('newsdash.sidebar', sidebarProvider)
   );
-
-  // Open dashboard on first activation from activity bar click is handled by the sidebar CTA
 }
 
 export function deactivate() {
@@ -83,29 +90,57 @@ function post(webview: vscode.Webview, msg: HostToWebview) {
   void webview.postMessage(msg);
 }
 
-async function loadFeeds(
-  context: vscode.ExtensionContext,
-  webview: vscode.Webview,
-  sector: SectorId
-) {
-  currentSector = sector;
-  post(webview, { type: 'loading', loading: true });
-  try {
-    const { apiBaseUrl } = getSettings();
-    const items = await fetchFeeds(apiBaseUrl, sector);
-    post(webview, { type: 'feedsResult', items, sector });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    post(webview, { type: 'feedsResult', items: [], sector, error: message });
-  } finally {
-    post(webview, { type: 'loading', loading: false });
-  }
-}
-
 function pushLocalState(context: vscode.ExtensionContext, webview: vscode.Webview) {
   post(webview, { type: 'savedItems', items: getSaved(context) });
   post(webview, { type: 'watchlistItems', items: getWatchlist(context) });
   post(webview, { type: 'settings', settings: getSettings() });
+}
+
+async function loadTicker(webview: vscode.Webview) {
+  const { apiBaseUrl } = getSettings();
+  try {
+    const [weather, assets] = await Promise.all([
+      fetchWeather(apiBaseUrl),
+      fetchCryptoMarket(apiBaseUrl),
+    ]);
+    post(webview, { type: 'tickerResult', weather, assets });
+  } catch (err) {
+    post(webview, {
+      type: 'tickerResult',
+      weather: null,
+      assets: [],
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
+}
+
+async function loadFeeds(webview: vscode.Webview, sector: SectorId) {
+  currentSector = sector;
+  post(webview, { type: 'loading', loading: true, scope: 'feeds' });
+  try {
+    const { apiBaseUrl } = getSettings();
+    if (sector === 'control') {
+      const items = await fetchDashboardFeeds(apiBaseUrl);
+      post(webview, { type: 'dashboardResult', items });
+      post(webview, { type: 'feedsResult', items, sector });
+    } else if (getSectorQuery(sector)) {
+      const items = await fetchFeeds(apiBaseUrl, sector);
+      post(webview, { type: 'feedsResult', items, sector });
+    }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    post(webview, { type: 'feedsResult', items: [], sector, error: message });
+    if (sector === 'control') {
+      post(webview, { type: 'dashboardResult', items: [], error: message });
+    }
+  } finally {
+    post(webview, { type: 'loading', loading: false, scope: 'feeds' });
+  }
+}
+
+async function refreshAll(context: vscode.ExtensionContext, webview: vscode.Webview) {
+  pushLocalState(context, webview);
+  await Promise.all([loadTicker(webview), loadFeeds(webview, currentSector)]);
 }
 
 function setupRefresh(context: vscode.ExtensionContext, webview: vscode.Webview) {
@@ -116,7 +151,7 @@ function setupRefresh(context: vscode.ExtensionContext, webview: vscode.Webview)
   const { refreshInterval } = getSettings();
   if (refreshInterval > 0) {
     refreshTimer = setInterval(() => {
-      void loadFeeds(context, webview, currentSector);
+      void refreshAll(context, webview);
     }, refreshInterval * 1000);
   }
 }
@@ -129,12 +164,66 @@ async function handleMessage(
   switch (raw.type) {
     case 'ready':
       pushLocalState(context, webview);
-      await loadFeeds(context, webview, currentSector);
+      await Promise.all([loadTicker(webview), loadFeeds(webview, 'control')]);
       setupRefresh(context, webview);
       break;
     case 'fetchFeeds':
-      await loadFeeds(context, webview, raw.sector);
+      await loadFeeds(webview, raw.sector);
       break;
+    case 'fetchDashboard':
+      await loadFeeds(webview, 'control');
+      break;
+    case 'fetchTicker':
+      await loadTicker(webview);
+      break;
+    case 'fetchBriefing': {
+      post(webview, { type: 'loading', loading: true, scope: 'briefing' });
+      try {
+        const briefing = await fetchBriefing(getSettings().apiBaseUrl);
+        post(webview, { type: 'briefingResult', briefing });
+      } catch (err) {
+        post(webview, {
+          type: 'briefingResult',
+          briefing: null,
+          error: err instanceof Error ? err.message : String(err),
+        });
+      } finally {
+        post(webview, { type: 'loading', loading: false, scope: 'briefing' });
+      }
+      break;
+    }
+    case 'fetchSummary': {
+      post(webview, { type: 'loading', loading: true, scope: 'summary' });
+      try {
+        const summaries = await fetchSummary(getSettings().apiBaseUrl);
+        post(webview, { type: 'summaryResult', summaries });
+      } catch (err) {
+        post(webview, {
+          type: 'summaryResult',
+          summaries: [],
+          error: err instanceof Error ? err.message : String(err),
+        });
+      } finally {
+        post(webview, { type: 'loading', loading: false, scope: 'summary' });
+      }
+      break;
+    }
+    case 'chat': {
+      post(webview, { type: 'loading', loading: true, scope: 'chat' });
+      try {
+        const result = await postChat(getSettings().apiBaseUrl, raw.messages);
+        post(webview, { type: 'chatResult', content: result.content, mode: result.mode });
+      } catch (err) {
+        post(webview, {
+          type: 'chatResult',
+          content: '',
+          error: err instanceof Error ? err.message : String(err),
+        });
+      } finally {
+        post(webview, { type: 'loading', loading: false, scope: 'chat' });
+      }
+      break;
+    }
     case 'saveItem': {
       const saved = getSaved(context);
       if (!saved.some((i) => i.id === raw.item.id)) {
@@ -189,10 +278,13 @@ function getWebviewHtml(webview: vscode.Webview, extensionUri: vscode.Uri): stri
   const distUri = vscode.Uri.joinPath(extensionUri, 'dist', 'webview');
   const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(distUri, 'assets', 'index.js'));
   const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(distUri, 'assets', 'style.css'));
+  const logoUri = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, 'media', 'logo.png')
+  );
   const nonce = getNonce();
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -201,7 +293,7 @@ function getWebviewHtml(webview: vscode.Webview, extensionUri: vscode.Uri): stri
   <title>NewsDash</title>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root" data-logo-uri="${logoUri}"></div>
   <script nonce="${nonce}" src="${scriptUri}"></script>
 </body>
 </html>`;
@@ -257,11 +349,12 @@ class NewsDashSidebarProvider implements vscode.WebviewViewProvider {
   constructor(private readonly context: vscode.ExtensionContext) {}
 
   resolveWebviewView(webviewView: vscode.WebviewView): void {
+    const logoUri = webviewView.webview.asWebviewUri(
+      vscode.Uri.joinPath(this.context.extensionUri, 'media', 'logo.png')
+    );
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [
-        vscode.Uri.joinPath(this.context.extensionUri, 'media'),
-      ],
+      localResourceRoots: [vscode.Uri.joinPath(this.context.extensionUri, 'media')],
     };
 
     webviewView.webview.html = `<!DOCTYPE html>
@@ -269,30 +362,23 @@ class NewsDashSidebarProvider implements vscode.WebviewViewProvider {
 <head>
   <meta charset="UTF-8" />
   <style>
-    body {
-      font-family: var(--vscode-font-family);
-      color: var(--vscode-foreground);
-      padding: 16px;
-      margin: 0;
-    }
+    body { font-family: var(--vscode-font-family); color: var(--vscode-foreground); padding: 16px; margin: 0; }
+    img { width: 48px; height: 48px; display: block; margin-bottom: 12px; }
     h2 { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
     p { font-size: 12px; opacity: 0.85; line-height: 1.45; margin: 0 0 16px; }
     button {
-      width: 100%;
-      padding: 8px 12px;
+      width: 100%; padding: 8px 12px;
       background: var(--vscode-button-background);
       color: var(--vscode-button-foreground);
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      border-radius: 2px;
+      border: none; cursor: pointer; font-size: 13px; border-radius: 2px;
     }
     button:hover { background: var(--vscode-button-hoverBackground); }
   </style>
 </head>
 <body>
+  <img src="${logoUri}" alt="NewsDash" />
   <h2>NewsDash</h2>
-  <p>Real-time AI News Intelligence across tech, markets, crypto, and research.</p>
+  <p>Technology Control Center — live markets, research, and sector intelligence inside VS Code.</p>
   <button id="open">Open Dashboard</button>
   <script>
     const vscode = acquireVsCodeApi();
