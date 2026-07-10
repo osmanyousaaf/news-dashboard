@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Updated NewsDash branding with the official LIVE NEWS 24/7 logo
+
 ## 1.2.1
 
 - Default API pointed to the production NewsDash deployment

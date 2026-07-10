@@ -2,7 +2,7 @@
   "name": "newsdash",
   "displayName": "NewsDash",
   "description": "Technology Control Center for VS Code — live news, markets, critical alerts, AI chat, and daily summaries.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "publisher": "usmanyousaaf",
   "engines": {
     "vscode": "^1.85.0"

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { CATEGORIES } from '@/lib/feeds/registry';
-import { CategoryNavIcon, RadarLogo } from '@/components/icons/category-nav-icon';
+import { CategoryNavIcon } from '@/components/icons/category-nav-icon';
 import { ChevronRight, Settings } from 'lucide-react';
 import type { Category } from '@/types';
 
@@ -69,7 +69,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     >
       <div className="ni-sidebar-header">
         <div className="ni-sidebar-logo">
-          <RadarLogo />
+          <img src="/logo.png" alt="NewsDash" className="sidebar-logo-img" />
         </div>
         {!collapsed && (
           <div className="ni-sidebar-brand animate-fade-in overflow-hidden">

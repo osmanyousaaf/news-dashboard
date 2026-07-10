@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "AI News Intelligence & Decision Dashboard",
   description:
     "Premium professional-grade real-time global news aggregation, AI-generated summaries, impact analysis, sentiment analytics and decision-support hub.",
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.png" }],
+  },
 };
 
 export default function RootLayout({

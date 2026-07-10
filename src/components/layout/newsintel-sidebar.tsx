@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSettings } from '@/components/providers/settings-provider';
-import { SidebarClock } from '@/components/ui/sidebar-clock';
 
 const MODULE_HREFS: Record<string, string> = {
   home: '/',
@@ -64,7 +63,7 @@ export function NewsIntelSidebar() {
     <aside className="sidebar">
       <div className="sidebar-header">
         <div className="sidebar-logo" id="sidebar-logo-container">
-          <SidebarClock />
+          <img src="/logo.png" alt="NewsDash" className="sidebar-logo-img" />
         </div>
         <div className="sidebar-brand">
           <h1>NewsDash</h1>
