@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+- Marketplace documentation aligned with production README
+- Team and organization credits (internship collaboration)
+- Croven AI and byteboom.ai links
+
 ## 1.1.0
 
 - Redesigned Control Center dashboard (top news, hot trends, operations timeline, research radar)
