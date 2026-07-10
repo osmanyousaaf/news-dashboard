@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/extension/node_modules
+/extension/webview-ui/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -19,6 +21,8 @@
 
 # production
 /build
+/extension/dist
+/extension/*.vsix
 
 # misc
 .DS_Store

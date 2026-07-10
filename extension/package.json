@@ -1,0 +1,91 @@
+{
+  "name": "newsdash",
+  "displayName": "NewsDash",
+  "description": "Real-time AI News Intelligence — sector-filtered headlines inside VS Code.",
+  "version": "1.0.0",
+  "publisher": "usmanyousaaf",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osmanyousaaf/news-dashboard.git"
+  },
+  "homepage": "https://github.com/osmanyousaaf/news-dashboard",
+  "bugs": {
+    "url": "https://github.com/osmanyousaaf/news-dashboard/issues"
+  },
+  "license": "MIT",
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "newsdash.openDashboard",
+        "title": "NewsDash: Open Dashboard",
+        "icon": {
+          "light": "media/icon.png",
+          "dark": "media/icon.png"
+        }
+      },
+      {
+        "command": "newsdash.refresh",
+        "title": "NewsDash: Refresh Feeds"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "newsdash",
+          "title": "NewsDash",
+          "icon": "media/activity-bar.svg"
+        }
+      ]
+    },
+    "views": {
+      "newsdash": [
+        {
+          "type": "webview",
+          "id": "newsdash.sidebar",
+          "name": "NewsDash"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "NewsDash",
+      "properties": {
+        "newsdash.apiBaseUrl": {
+          "type": "string",
+          "default": "https://news-dashboard-six-indol.vercel.app",
+          "description": "Base URL for the NewsDash API (no trailing slash). Use http://localhost:3000 for local Next.js."
+        },
+        "newsdash.refreshInterval": {
+          "type": "number",
+          "default": 60,
+          "minimum": 0,
+          "description": "Auto-refresh interval in seconds. Set to 0 to disable."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "npm run compile:ext && npm run compile:webview",
+    "compile:ext": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --sourcemap",
+    "compile:webview": "npm run build --prefix webview-ui",
+    "watch": "npm run compile:ext -- --watch",
+    "package": "vsce package --no-dependencies",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.0"
+  }
+}
