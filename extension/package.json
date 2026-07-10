@@ -2,23 +2,29 @@
   "name": "newsdash",
   "displayName": "NewsDash",
   "description": "Technology Control Center for VS Code — live news, markets, critical alerts, AI chat, and daily summaries.",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "publisher": "usmanyousaaf",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Visualization"
   ],
   "keywords": [
     "news",
-    "rss",
+    "dashboard",
     "ai",
     "crypto",
     "markets",
-    "dashboard",
-    "intelligence"
+    "intelligence",
+    "control center",
+    "briefing"
   ],
+  "galleryBanner": {
+    "color": "#0b0d12",
+    "theme": "dark"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/osmanyousaaf/news-dashboard.git"
@@ -35,7 +41,8 @@
     "commands": [
       {
         "command": "newsdash.openDashboard",
-        "title": "NewsDash: Open Dashboard",
+        "title": "Open Dashboard",
+        "category": "NewsDash",
         "icon": {
           "light": "media/icon.png",
           "dark": "media/icon.png"
@@ -43,7 +50,8 @@
       },
       {
         "command": "newsdash.refresh",
-        "title": "NewsDash: Refresh Feeds"
+        "title": "Refresh Feeds",
+        "category": "NewsDash"
       }
     ],
     "viewsContainers": {
@@ -60,7 +68,8 @@
         {
           "type": "webview",
           "id": "newsdash.sidebar",
-          "name": "NewsDash"
+          "name": "Control Center",
+          "contextualTitle": "NewsDash"
         }
       ]
     },
@@ -70,13 +79,13 @@
         "newsdash.apiBaseUrl": {
           "type": "string",
           "default": "https://news-dashboard-six-indol.vercel.app",
-          "description": "Base URL for the NewsDash intelligence API (no trailing slash)."
+          "markdownDescription": "Base URL for the NewsDash intelligence API (no trailing slash). Used for news, markets, weather, chat, and summaries."
         },
         "newsdash.refreshInterval": {
           "type": "number",
           "default": 60,
           "minimum": 0,
-          "description": "Auto-refresh interval in seconds. Set to 0 to disable."
+          "markdownDescription": "How often the dashboard refreshes live data, in seconds. Set to `0` to turn auto-refresh off."
         }
       }
     }

@@ -1,61 +1,81 @@
-# NewsDash for Visual Studio Code
+# NewsDash
 
-**Real-time AI News Intelligence inside your editor.**
+**Technology Control Center for Visual Studio Code**
 
-NewsDash brings a Technology Control Center into VS Code: live sector headlines, market telemetry, critical alerts, AI chat, and daily summaries — without leaving your workspace.
+Live news intelligence, market telemetry, critical alerts, AI chat, and daily summaries — inside your editor.
 
-![NewsDash](https://raw.githubusercontent.com/osmanyousaaf/news-dashboard/main/extension/media/logo.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/osmanyousaaf/news-dashboard/main/extension/media/logo.png" alt="NewsDash logo" width="128" />
+</p>
 
-## Highlights
+NewsDash is an internship collaboration project that brings a professional intelligence dashboard into VS Code. Browse technology and market sectors, track live crypto and weather signals, save important stories, and open full articles without leaving your workspace.
 
-- **Control Center** — Top technology news, global hot trends, operations timeline, and framework & research radar
-- **Critical Breaking Alert** — High-significance stories surface immediately when detected
-- **Live market ticker** — London weather plus major crypto prices with clear up/down movement
-- **Sector intelligence** — Technology, AI, Cybersecurity, Cloud & DevOps, GitHub, Research, Startups, Crypto, Forex, Gold, Trading, Geopolitics
-- **AI Chat & Quick Summary** — Conversational briefing and distilled daily intelligence
-- **Saved & Watchlist** — Keep important stories locally in VS Code
-- **Light / Dark theme** — Clean, readable interface for long reading sessions
+---
+
+## What you get
+
+| Capability | Description |
+|------------|-------------|
+| **Control Center** | Top technology news, global hot trends, operations timeline, and framework & research radar |
+| **Critical Breaking Alert** | High-significance stories highlighted the moment they appear |
+| **Live ticker** | London weather plus major crypto prices with clear up/down movement |
+| **Sector navigation** | Technology, AI, Cybersecurity, Cloud & DevOps, GitHub, Research, Startups, Crypto, Forex, Gold, Trading, Geopolitics |
+| **AI Chat** | Ask questions over live intelligence streams |
+| **Quick Summary** | Daily briefing and category summaries for fast review |
+| **Saved & Watchlist** | Keep stories locally on your machine |
+| **Light / Dark theme** | Readable interface for long sessions |
+
+---
 
 ## Install
 
-1. Open VS Code
-2. Go to **Extensions**
-3. Search for **NewsDash** by `usmanyousaaf`
-4. Click **Install**
-5. Run **NewsDash: Open Dashboard** from the Command Palette, or use the Activity Bar icon
+1. Open **Extensions** in VS Code  
+2. Search **NewsDash** (`usmanyousaaf`)  
+3. Click **Install**  
+4. Run **NewsDash: Open Dashboard** from the Command Palette, or open it from the Activity Bar  
 
 Marketplace: [NewsDash](https://marketplace.visualstudio.com/items?itemName=usmanyousaaf.newsdash)
 
-## Usage
+---
+
+## How to use
 
 | Action | How |
 |--------|-----|
-| Open dashboard | Command Palette → `NewsDash: Open Dashboard` |
-| Switch sectors | Left navigation (Technology / Markets & Global) |
-| Save an article | Bookmark icon on a card or **Save** in the detail panel |
-| Open source article | **Open Full Article** |
-| Theme | Moon icon in the top bar |
-| AI Chat / Summary | Robot and briefing icons in the top bar |
+| Open dashboard | `NewsDash: Open Dashboard` |
+| Refresh feeds | `NewsDash: Refresh Feeds` |
+| Switch sectors | Left sidebar (Technology / Markets & Global) |
+| Save a story | Bookmark on a card, or **Save** in the detail panel |
+| Open full article | **Open Full Article** |
+| Toggle theme | Moon icon in the top bar |
+| AI Chat | Robot icon in the top bar |
+| Quick Summary | Briefing icon in the top bar |
 
-## Configuration
+---
+
+## Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `newsdash.apiBaseUrl` | Production NewsDash API | Base URL for live intelligence endpoints |
-| `newsdash.refreshInterval` | `60` | Auto-refresh interval in seconds (`0` disables) |
+| `newsdash.apiBaseUrl` | Production NewsDash API | Base URL for live intelligence endpoints (no trailing slash) |
+| `newsdash.refreshInterval` | `60` | Auto-refresh interval in seconds (`0` = off) |
+
+---
 
 ## Privacy
 
-- Saved articles and watchlist items are stored locally in VS Code (`globalState`)
-- API keys for AI features remain on the server; they are never bundled in the extension
-- The extension requests only the news, market, weather, briefing, and chat endpoints required for the dashboard
+- Saved articles and watchlist items stay on your machine (VS Code local storage)
+- Server API keys are never shipped inside the extension
+- Only the endpoints needed for news, markets, weather, briefing, and chat are used
 
-## Team
+---
+
+## Contributors
 
 Internship collaboration project.
 
-| Name | Role / Affiliation |
-|------|--------------------|
+| Name | Role |
+|------|------|
 | [Usman Yousaf](https://github.com/usmanyousaaf) | Publisher & Lead |
 | Sameer Qureshi | Contributor |
 | Faiza BB | Contributor |
@@ -65,9 +85,12 @@ Internship collaboration project.
 - [byteboom.ai](https://byteboom.ai)
 - [Croven AI](http://crovenai.com/)
 
-## Repository
+---
 
-Source: [github.com/osmanyousaaf/news-dashboard](https://github.com/osmanyousaaf/news-dashboard)
+## Links
+
+- Source: [github.com/osmanyousaaf/news-dashboard](https://github.com/osmanyousaaf/news-dashboard)
+- Publisher: [usmanyousaaf](https://marketplace.visualstudio.com/publishers/usmanyousaaf)
 
 ## License
 
