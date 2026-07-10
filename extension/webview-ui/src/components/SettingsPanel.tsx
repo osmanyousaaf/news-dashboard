@@ -39,7 +39,7 @@ export function SettingsPanel({ settings }: Props) {
           id="apiBaseUrl"
           value={apiBaseUrl}
           onChange={(e) => setApiBaseUrl(e.target.value)}
-          placeholder="https://your-deployment.vercel.app"
+          placeholder="https://news-dashboard-e69n.vercel.app"
         />
       </div>
       <div className="field">

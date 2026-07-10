@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Default API pointed to the production NewsDash deployment
+
 ## 1.2.0
 
 - Control Center home with top news, hot trends, timeline, and research radar

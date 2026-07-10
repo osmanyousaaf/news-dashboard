@@ -55,7 +55,7 @@ export function deactivate() {
 function getSettings(): ExtensionSettings {
   const cfg = vscode.workspace.getConfiguration('newsdash');
   return {
-    apiBaseUrl: cfg.get<string>('apiBaseUrl') ?? 'https://news-dashboard-six-indol.vercel.app',
+    apiBaseUrl: cfg.get<string>('apiBaseUrl') ?? 'https://news-dashboard-e69n.vercel.app',
     refreshInterval: cfg.get<number>('refreshInterval') ?? 60,
   };
 }

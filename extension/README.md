@@ -57,7 +57,7 @@ Marketplace: [NewsDash](https://marketplace.visualstudio.com/items?itemName=usma
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `newsdash.apiBaseUrl` | Production NewsDash API | Base URL for live intelligence endpoints (no trailing slash) |
+| `newsdash.apiBaseUrl` | `https://news-dashboard-e69n.vercel.app` | Base URL for live intelligence endpoints (no trailing slash) |
 | `newsdash.refreshInterval` | `60` | Auto-refresh interval in seconds (`0` = off) |
 
 ---

@@ -2,7 +2,7 @@
   "name": "newsdash",
   "displayName": "NewsDash",
   "description": "Technology Control Center for VS Code — live news, markets, critical alerts, AI chat, and daily summaries.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "usmanyousaaf",
   "engines": {
     "vscode": "^1.85.0"
@@ -78,7 +78,7 @@
       "properties": {
         "newsdash.apiBaseUrl": {
           "type": "string",
-          "default": "https://news-dashboard-six-indol.vercel.app",
+          "default": "https://news-dashboard-e69n.vercel.app",
           "markdownDescription": "Base URL for the NewsDash intelligence API (no trailing slash). Used for news, markets, weather, chat, and summaries."
         },
         "newsdash.refreshInterval": {
